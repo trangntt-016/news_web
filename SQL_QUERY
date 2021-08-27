@@ -1,0 +1,45 @@
+CREATE TABLE USER(
+    `user_id` CHAR(37) PRIMARY KEY,
+    `username` VARCHAR(30),
+    `password` CHAR(60),
+    `full_name` NVARCHAR(50),
+    `sex` CHAR(5) DEFAULT 'MALE',
+    `created_date` DATETIME,
+    `last_modified_date` DATETIME,
+    `active` BIT DEFAULT TRUE
+);
+CREATE TABLE ROLE(
+    `role_id` INT AUTO_INCREMENT PRIMARY KEY ,
+    `name` VARCHAR(15)
+);
+
+CREATE TABLE USER_ROLE(
+    `id` INT AUTO_INCREMENT PRIMARY KEY ,
+    `user_id` CHAR(37),
+    `role_id` INT,
+    CONSTRAINT PK_USER_ROLE FOREIGN KEY (user_id) REFERENCES USER(user_id),
+    CONSTRAINT PK_ROLE_USER FOREIGN KEY (role_id) REFERENCES ROLE(role_id)
+);
+
+CREATE TABLE CATEGORY(
+   `category_id` TINYINT AUTO_INCREMENT PRIMARY KEY,
+   `name` VARCHAR(15)
+);
+
+CREATE TABLE MENU(
+   `menu_id` INT AUTO_INCREMENT PRIMARY KEY ,
+   `name` VARCHAR(30),
+   `parent_id` INT DEFAULT 0
+);
+
+CREATE TABLE NEWS(
+    `news_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `title` NVARCHAR(150),
+    `description` NVARCHAR(300),
+    `detail` BLOB,
+    `image_path` VARCHAR(20),
+    `menu_id` INT,
+    `category_id` TINYINT,
+    CONSTRAINT pk_category FOREIGN KEY (category_id) REFERENCES CATEGORY(category_id),
+    CONSTRAINT pk_menu FOREIGN KEY (menu_id) REFERENCES MENU(menu_id)
+);
